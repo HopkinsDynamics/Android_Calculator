@@ -11,5 +11,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // look something kinda random
         int myNum=0;
+        String nyName = "David";
     }
 }
