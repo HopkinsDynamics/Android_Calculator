@@ -55,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         Button buttonMinus = findViewById(R.id.buttonMinus);
         Button buttonPlus = findViewById(R.id.buttonPlus);
 
+        Button buttonPower = findViewById(R.id.buttonPower);
+        Button buttonClear = findViewById(R.id.buttonClear);
+        Button buttonRoot = findViewById(R.id.buttonRoot);
+
+
         View.OnClickListener listener = new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -88,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     performOperation(doubleValue, op);
                 }catch(NumberFormatException e){
                     newNumber.setText("");
+                    e.printStackTrace();
                 }
                 pendingOperation = op;
                 displayOperation.setText(pendingOperation);
@@ -99,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
         buttonMultiply.setOnClickListener(opListener);
         buttonMinus.setOnClickListener(opListener);
         buttonPlus.setOnClickListener(opListener);
+        buttonClear.setOnClickListener(opListener);
+        buttonRoot.setOnClickListener(opListener);
+        buttonPower.setOnClickListener(opListener);
+
 
         Button buttonNeg = (Button) findViewById(R.id.buttonNeg);
         buttonNeg.setOnClickListener(new View.OnClickListener() {
@@ -119,11 +129,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         Log.d(TAG, "onCreate: out");
     }
 
     private void performOperation(Double value, String operation){
        // displayOperation.setText(operation);
+        boolean clear=false;
         if ( null == operand1){
             operand1 = value;//Double.valueOf(value);
         }else {
@@ -150,10 +162,27 @@ public class MainActivity extends AppCompatActivity {
                 case "+":
                     operand1+=value;//operand2;
                     break;
+                case "CLR":
+                    System.out.println(" clear is true");
+                    operand1=0.0;
+                    clear=true;
+
+                    break;
+                case "X^Y":
+                   operand1= Math.pow(operand1,value);
+                    break;
+                case "ROOT":
+                    operand1=Math.pow(operand1,(1.0/value));
+                    break;
             }
         }
-
-        result.setText(operand1.toString());
+        if(clear){
+            result.setText("");
+            System.out.println(" clear is true");
+            Log.d(TAG,"reached  clear bool block");
+        }else {
+            result.setText(operand1.toString());
+        }
         newNumber.setText("");
 
     }
